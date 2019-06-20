@@ -6,7 +6,6 @@ var incorrect = [];
 var correct = [];
 var answerArray = [];
 var percentageCorrect = [];
-var emptyArray = []
 
 /// grab trivia questions from a API, 
 axios({
@@ -15,6 +14,7 @@ axios({
 })
     .then(function (response) {
         for (i = 0; i < response.data.results.length; i++) {
+            ///loops through the object to return the question
             question = response.data.results[i].question
             incorrect = response.data.results[i].incorrect_answers
             correct = response.data.results[i].correct_answer
@@ -24,18 +24,34 @@ axios({
         } 
         for (i = 0; i < answerArray.length; i++){
         
-        $(".answerDiv").append("<input type='button' id='answerButton' class=" + answerArray[i] + " value=" + answerArray[i] + "></input>").attr(answerArray[i])
-          
+        $(".answerDiv").append("<div>" + answerArray[i] + "</div>")
+        
+        
     }
+     ////assigning click value to each button... then check against the correct array and return true or false   
+    $('.answerDiv').click(function(e) {  
+        $(".answerDiv").val(answerArray[i]);
+    });
+
+     /// prints question to the dom
+     $("#questionDiv").append("<div>" + question + "</div>")
+
+     /// prints correctCounter to the dom
+     $(".correct").text("Correct:" + correctCounter)
+    
+    /// prints incorrectCounter to the Dom
+     $(".incorrect").text("Incorrect:" + incorrectCounter)
+
+
+
         console.log(response.data.results)
         console.log(question)
         console.log(incorrect)
         console.log(correct)
         console.log(answerArray)
         console.log(typeof(response.data.results[i].incorrect_answers))
+      
         
-
-
 
 
 
