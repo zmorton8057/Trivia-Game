@@ -25,40 +25,67 @@ axios({
     method: "GET"
 })
     .then(function(response) {
-        /// prints question to the dom
-        $("#questionDiv").append("<div>" + question + "</div>")
-
-        /// prints correctCounter to the dom
-        $(".correct").text("Correct:" + correctCounter)
-
-        /// prints incorrectCounter to the Dom
-        $(".incorrect").text("Incorrect:" + incorrectCounter)
-
+        shuffle(response.data.results)
+       
+        var resetFunc = function(){
 ////question number start at zero begins at the array when gets to next function increment the variable and then update the DOM
         for (i = 0; i < response.data.results.length; i++) {
             ///loops through the object to return the question
+            
+            
             question = response.data.results[i].question
             incorrect = response.data.results[i].incorrect_answers
             correct = response.data.results[i].correct_answer
             answerArray = incorrect
             answerArray.push(correct)
             shuffle(answerArray)
-
+            
         }
-        for (i = 0; i < answerArray.length; i++) {
+}
+            resetFunc()
 
+        var resetAnswer = function(){
+        for (var i = 0; i < answerArray.length; i++) {
+            
             $(".answerDiv").append("<div>" + answerArray[i] + "</div>")
-
-
+            
+            }
         }
+
+            resetAnswer()
+        var resetDOM = function(){
+         /// prints question to the dom
+         for(var i=0; i< question.length; i++)
+         $("#questionDiv").text(question[i])
+         console.log(question[i])
+        }
+         /// prints correctCounter to the dom
+         $(".correct").text("Correct:" + correctCounter)
+ 
+         /// prints incorrectCounter to the Dom
+         $(".incorrect").text("Incorrect:" + incorrectCounter)
+            
+            resetDOM()
+
+        /////////////////Sets Timer Interval
+       
+         
         ////assigning click value to each button... then check against the correct array and return true or false   
         $('.answerDiv').click(function(e) {
             if (e.target.innerText === correct) {
                 correctCounter++
                 $(".correct").text("Correct:" + correctCounter)
+                response.data.results[i]++
+                resetFunc()
+                resetAnswer()
+                resetDOM()
             } else {
                 incorrectCounter++
                 $(".incorrect").text("Incorrect:" + incorrectCounter)
+                response.data.results[i]++
+                resetFunc()
+                resetAnswer()
+                resetDOM()
             }
         });
 
@@ -71,7 +98,7 @@ axios({
         console.log(incorrect)
         console.log(correct)
         console.log(answerArray)
-        console.log(typeof (response.data.results[i].incorrect_answers))
+        
 
 
 
