@@ -1,0 +1,36 @@
+
+
+
+.container{
+    background-color: lightgrey;
+}
+
+h1{
+    background-color: white;
+    color: #5c015c;
+    padding-left: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-bottom: solid 10px #01f0f8;
+}
+
+.menu{
+    background-color: #5c015c;
+    color: #01f0f8;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.questionDiv{
+    background-color: blue;
+}
+
+#question{
+    color: #5c015c;
+    margin: 3%;
+}
+
+.answerDiv{
+    margin: 3%;
+    color: #5c015c;
+}
