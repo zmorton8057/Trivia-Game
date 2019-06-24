@@ -74,14 +74,48 @@ axios({
 
 
         /////////////////Sets Timer Interval
+        function startTimer(duration, display) {
+            var start = Date.now(),
+                diff,
+                seconds;
+            function timer() {
+                // get the number of seconds that have elapsed since 
+                // startTimer() was called
+                diff = duration - (((Date.now() - start) / 1000) | 0);
+        
+                
+                seconds = (diff % 60) | 0;
+        
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+        
+                display.textContent =  "Time:" + seconds; 
+        
+                if (diff <= 0) {
+                    // add one second so that the count down starts at the full duration
+                    // example 05:00 not 04:59
+                    start = Date.now() + 1000;
+                }
+            };
+            // we don't want to wait a full second before the timer starts
+            timer();
+            setInterval(timer, 1000);
+            
+        }
+        
+        window.onclick = function () {
+            var fifteenSeconds = 15,
+                display = document.querySelector('.countdown');
+            startTimer(fifteenSeconds, display);
+        };
+        
 
-
+        
         ////assigning click value to each button... then check against the correct array and return true or false   
         $('.answerDiv').click(function (e) {
             if (e.target.innerText === correct) {
                 correctCounter++
                 $(".correct").text("Correct: " + correctCounter)
-
+                
                 j++
                 resetVar()    
 
@@ -94,7 +128,7 @@ axios({
                 $("#questionDiv").append("<div>" + question + "</div>")
 
 
-
+                
 
             } else {
                 incorrectCounter++
@@ -105,12 +139,17 @@ axios({
 
                 for (var i = 0; i < answerArray.length; i++) {
 
-                    $(".answerDiv").append("<div>" + answerArray[i] + "</div>")
+                    $(".answerDiv").append("<div>" + answerArray + "</div>")
 
                 }
                 $("#questionDiv").append("<div>" + question + "</div>")
-
+                
             }
+
+            
+                
+            
+            
         });
 
 
