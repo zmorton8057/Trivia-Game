@@ -161,7 +161,7 @@ axios({
                 $("#questionDiv").append("<div>" + question + "</div>")
                 
                 
-            } else if (e.target.innerText === incorrect) {
+            } else {
                 incorrectCounter++
                 $(".incorrect").text("Incorrect: " + incorrectCounter)
                 
