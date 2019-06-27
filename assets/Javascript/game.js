@@ -80,11 +80,7 @@ axios({
         //  the "run" function
         var intervalId;
     
-        //  When the stop button gets clicked, run the stop function.
-        $("#stop").on("click", stop);
-    
-        //  When the resume button gets clicked, execute the run function.
-        $("#resume").on("click", run);
+
     
         //  The run function sets an interval
         //  that runs the decrement function once a second.
@@ -102,7 +98,7 @@ axios({
           number--;
     
           //  Show the number in the #show-number tag.
-          $(".countdown").html("<h2>" + number + "</h2>");
+          $(".countdown").html("<div>Time: " + number + "</div>");
     
     
           //  Once number hits zero...
@@ -113,7 +109,18 @@ axios({
     
             //  Alert the user that time is up.
             incorrectCounter++
-            
+            $(".incorrect").text("Incorrect: " + incorrectCounter)
+            resetVar()
+
+                for (var i = 0; i < answerArray.length; i++) {
+
+                    $(".answerDiv").append("<div>" + answerArray[i] + "</div>")
+
+                }
+                $("#questionDiv").append("<div>" + question + "</div>")
+                stop()
+            number = 16;
+            run()
           }
         }
     
@@ -164,7 +171,7 @@ axios({
 
                 for (var i = 0; i < answerArray.length; i++) {
 
-                    $(".answerDiv").append("<div>" + answerArray + "</div>")
+                    $(".answerDiv").append("<div>" + answerArray[i] + "</div>")
 
                 }
                 $("#questionDiv").append("<div>" + question + "</div>")
