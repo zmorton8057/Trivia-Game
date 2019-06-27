@@ -74,45 +74,71 @@ axios({
 
 
         /////////////////Sets Timer Interval
-        function startTimer(duration, display) {
-            var start = Date.now(),
-                diff,
-                seconds;
-            function timer() {
-                // get the number of seconds that have elapsed since 
-                // startTimer() was called
-                diff = duration - (((Date.now() - start) / 1000) | 0);
-        
-                
-                seconds = (diff % 60) | 0;
-        
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-        
-                display.textContent =  "Time:" + seconds; 
-        
-                if (diff <= 0) {
-                    // add one second so that the count down starts at the full duration
-                    // example 05:00 not 04:59
-                    start = Date.now() + 1000;
-                }
-            };
-            // we don't want to wait a full second before the timer starts
-            timer();
-            setInterval(timer, 1000);
-            
+        var number = 16;
+
+        //  Variable that will hold our interval ID when we execute
+        //  the "run" function
+        var intervalId;
+    
+        //  When the stop button gets clicked, run the stop function.
+        $("#stop").on("click", stop);
+    
+        //  When the resume button gets clicked, execute the run function.
+        $("#resume").on("click", run);
+    
+        //  The run function sets an interval
+        //  that runs the decrement function once a second.
+        //  *****BUG FIX******** 
+        //  Clearing the intervalId prior to setting our new intervalId will not allow multiple instances.
+        function run() {
+          clearInterval(intervalId);
+          intervalId = setInterval(decrement, 1000);
         }
-        
-        window.onclick = function () {
-            var fifteenSeconds = 15,
-                display = document.querySelector('.countdown');
-            startTimer(fifteenSeconds, display);
-        };
+    
+        //  The decrement function.
+        function decrement() {
+    
+          //  Decrease number by one.
+          number--;
+    
+          //  Show the number in the #show-number tag.
+          $(".countdown").html("<h2>" + number + "</h2>");
+    
+    
+          //  Once number hits zero...
+          if (number === 0) {
+    
+            //  ...run the stop function.
+            stop();
+    
+            //  Alert the user that time is up.
+            incorrectCounter++
+            
+          }
+        }
+    
+        //  The stop function
+        function stop() {
+    
+          //  Clears our intervalId
+          //  We just pass the name of the interval
+          //  to the clearInterval function.
+          clearInterval(intervalId);
+        }
+    
+        //  Execute the run function.
+        run();
+    
         
 
         
         ////assigning click value to each button... then check against the correct array and return true or false   
         $('.answerDiv').click(function (e) {
+            stop()
+            number = 16;
+            run()
             if (e.target.innerText === correct) {
+                
                 correctCounter++
                 $(".correct").text("Correct: " + correctCounter)
                 
@@ -126,15 +152,14 @@ axios({
 
                 }
                 $("#questionDiv").append("<div>" + question + "</div>")
-
-
                 
-
-            } else {
+                
+            } else if (e.target.innerText === incorrect) {
                 incorrectCounter++
                 $(".incorrect").text("Incorrect: " + incorrectCounter)
                 
                 j++
+
                 resetVar()
 
                 for (var i = 0; i < answerArray.length; i++) {
@@ -145,14 +170,15 @@ axios({
                 $("#questionDiv").append("<div>" + question + "</div>")
                 
             }
-
+            
             
                 
             
             
         });
 
-
+        
+                
 
 
 
